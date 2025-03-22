@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>☁️ Mood Quote App</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="app-title">
+        <span class="icon">☁️</span>
+        <h1>Mood Quote App</h1>
+      </div>
+      <p class="subtitle">A quote for every feeling — calm & cozy vibes only.</p>
+    </header>
+
+    <section class="quote-section">
+      <select id="mood-select">
+        <option value="">-- Select your mood --</option>
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="tired">😪 Tired</option>
+        <option value="anxious">😰 Anxious</option>
+        <option value="motivated">💪 Motivated</option>
+        <option value="stressed">😩 Stressed</option>
+        <option value="overwhelmed">😵 Overwhelmed</option>
+      </select>
+      <button onclick="showQuote()">Get Quote</button>
+      <div id="quote-box" class="quote-box"></div>
+    </section>
+
+    <section class="form-section">
+      <h2>Add Your Own Quote</h2>
+      <label for="new-quote">Your Quote</label>
+      <textarea id="new-quote" placeholder="Enter your quote here..."></textarea>
+
+      <label for="new-moods">Mood Tags (comma-separated)</label>
+      <input id="new-moods" placeholder="e.g. happy, motivated" />
+
+      <label for="category-select">Select a category</label>
+      <select id="category-select">
+        <option value="">-- Choose existing category --</option>
+      </select>
+
+      <label for="new-category">Or enter a new category</label>
+      <input id="new-category" placeholder="e.g. confidence, kindness" />
+
+      <button onclick="addQuote()" id="save-quote-button">📂 Save Quote</button>
+      <div id="add-status"></div>
+    </section>
+
+    <footer>
+      <button onclick="clearSavedQuotes()" class="reset-button">♻️ Reset My Saved Quotes</button>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

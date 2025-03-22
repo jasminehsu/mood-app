@@ -1,0 +1,106 @@
+/* Calm & Cozy Mood App Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f6f1;
+  color: #333;
+}
+
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.app-title h1 {
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+select,
+textarea,
+input {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #fefefe;
+}
+
+button {
+  display: inline-block;
+  background-color: #7da4aa;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #6d949c;
+}
+
+.reset-button {
+  background-color: #ccc;
+  color: #333;
+  margin-top: 2rem;
+}
+
+.quote-box {
+  background-color: #eef4f6;
+  padding: 1.2rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #37474f;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+  transition: all 0.2s ease-in-out;
+}
+
+h2 {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  color: #444;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}
