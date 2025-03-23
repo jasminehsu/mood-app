@@ -1,4 +1,4 @@
-/* Calm & Cozy Mood App Styles */
+/* Mood Quote App – Clean Centered Style */
 body {
   margin: 0;
   padding: 0;
@@ -16,41 +16,110 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-header {
+/* Hero */
+.main-hero {
   text-align: center;
+  padding-top: 1rem;
   margin-bottom: 2rem;
 }
 
-.app-title {
+.mood-icon {
+  background-color: #e5d4f3;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  font-size: 2rem;
 }
 
-.app-title h1 {
+.headline {
+  font-size: 2rem;
   font-weight: 600;
-  margin: 0;
+  margin-bottom: 0.25rem;
 }
 
-.subtitle {
-  color: #666;
-  font-size: 0.95rem;
-  margin-top: 0.25rem;
-}
-
-select,
-textarea,
-input {
-  width: 100%;
-  padding: 0.6rem;
-  margin: 0.5rem 0 1rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+.subheadline {
   font-size: 1rem;
-  background-color: #fefefe;
+  color: #777;
 }
 
+/* Mood Buttons */
+.mood-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.mood-btn {
+  font-size: 0.9rem;
+  background-color: #e0dffb;
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease;
+}
+
+.mood-btn:hover {
+  background-color: #d3d2f0;
+}
+
+/* Quote Display */
+.quote-box {
+  background-color: #eef4f6;
+  padding: 1.2rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #37474f;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+  text-align: center;
+}
+
+/* Centered Form */
+.form-section {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.centered-form .form-group {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto 1.2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #555;
+  font-weight: 500;
+}
+
+textarea,
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #fafafa;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #a9c9d3;
+}
+
+/* Buttons */
 button {
   display: inline-block;
   background-color: #7da4aa;
@@ -74,23 +143,19 @@ button:hover {
   margin-top: 2rem;
 }
 
-.quote-box {
-  background-color: #eef4f6;
-  padding: 1.2rem;
-  border-radius: 14px;
+#save-quote-button {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+#add-status {
   margin-top: 1rem;
-  font-style: italic;
-  color: #37474f;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
-  transition: all 0.2s ease-in-out;
-}
-
-h2 {
-  margin-top: 2rem;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   color: #444;
+  text-align: center;
 }
 
+/* Footer */
 footer {
   text-align: center;
   margin-top: 2rem;
@@ -98,6 +163,7 @@ footer {
   color: #888;
 }
 
+/* Mobile Responsive */
 @media (max-width: 600px) {
   .container {
     margin: 1rem;
