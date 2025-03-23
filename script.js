@@ -3,7 +3,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
 (function () {
   let quotes = [];
 
-  // ✅ Fetch all quotes
+  // ✅ Fetch all quotes from Google Sheet on load
   fetch(GOOGLE_SHEET_URL)
     .then(response => response.json())
     .then(data => {
@@ -27,7 +27,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
       console.error("❌ Failed to load quotes:", error);
     });
 
-  // ✅ Handle mood button click
+  // ✅ Mood button click listeners
   document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll(".mood-btn");
     buttons.forEach(btn => {
@@ -38,7 +38,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     });
   });
 
-  // ✅ Show quote by mood
+  // ✅ Show a random quote based on mood
   window.showQuote = function (mood) {
     const quoteBox = document.getElementById("quote-box");
 
@@ -57,7 +57,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     }
   };
 
-  // ✅ Save new quote with FormData
+  // ✅ Add new quote and save to Google Sheet
   window.addQuote = function () {
     const quote = document.getElementById("new-quote").value.trim();
     const moods = document.getElementById("new-moods").value.trim().toLowerCase();
@@ -92,15 +92,26 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
       document.getElementById("new-category").value = "";
       document.getElementById("category-select").value = "";
 
+      // Refresh quotes from Google Sheet
       return fetch(GOOGLE_SHEET_URL);
     })
     .then(response => response.json())
     .then(data => {
-      quotes = data.map(q => ({
-        quote: q.quote,
-        moods: typeof q.moods === 'string' ? q.moods.split(',').map(m => m.trim().toLowerCase()) : [],
-        category: q.category
-      }));
+      // ✅ FIXED: consistent mood parsing here too
+      quotes = data.map(q => {
+        const moodArray = (q.moods || "")
+          .toLowerCase()
+          .split(/[,|\n]/)
+          .map(m => m.trim())
+          .filter(Boolean);
+
+        return {
+          quote: q.quote,
+          moods: moodArray,
+          category: q.category
+        };
+      });
+
       populateCategoryOptions();
     })
     .catch(err => {
@@ -110,7 +121,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     });
   };
 
-  // ✅ Populate category dropdown
+  // ✅ Populate dropdown with unique categories
   function populateCategoryOptions() {
     const select = document.getElementById("category-select");
     const categories = [...new Set(quotes.map(q => q.category.toLowerCase()))];
@@ -124,6 +135,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     });
   }
 
+  // ✅ Placeholder for reset
   window.clearSavedQuotes = function () {
     alert("You're using Google Sheets — nothing to reset here!");
   };
