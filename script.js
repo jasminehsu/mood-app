@@ -1,27 +1,25 @@
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf-vHcyIg8a92DKIC1649tDk3rGayl9OwaUPUiqW3vGjsCjV1oCkg-9/exec";
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY-cK0p7TQpEF8fXzl2gCNtW4VdYYhMOvUg8OmzkaK1CDdH0n-QAoCh/exec";
+
 
 (function () {
   let quotes = [];
 
-  // ✅ Fetch all quotes from Google Sheet
   fetch(GOOGLE_SHEET_URL)
     .then(response => response.json())
     .then(data => {
       quotes = data.map(q => {
         const rawMoods = (q.moods || "").toString().toLowerCase();
         const moodArray = rawMoods
-          .split(/[,|\n]/)         // split by comma or newline
-          .map(m => m.trim())      // trim spaces
-          .filter(m => m.length);  // remove empty ones
-    
+          .split(/[,|\n]/)
+          .map(m => m.trim())
+          .filter(m => m.length);
+
         return {
           quote: q.quote,
           moods: moodArray,
           category: q.category
         };
       });
-      
-
       console.log("✅ Quotes loaded:", quotes);
       populateCategoryOptions();
     })
@@ -29,10 +27,8 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf
       console.error("❌ Failed to load quotes from Google Sheets:", error);
     });
 
-  // ✅ Expose showQuote globally
   window.showQuote = function () {
     const mood = document.getElementById("mood-select").value.toLowerCase();
-    console.log("🎯 Selected mood value:", mood);
     const quoteBox = document.getElementById("quote-box");
 
     if (!mood) {
@@ -40,11 +36,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf
       return;
     }
 
-    const filtered = quotes.filter(q =>
-      q.moods.some(m => m === mood)
-    );
-
-    console.log("🔍 Matching quotes:", filtered);
+    const filtered = quotes.filter(q => q.moods.some(m => m === mood));
 
     if (filtered.length === 0) {
       quoteBox.innerHTML = `<p><em>No quotes for that mood yet.</em></p>`;
@@ -57,28 +49,29 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf
     }
   };
 
-  // ✅ Expose addQuote globally
   window.addQuote = function () {
     const quote = document.getElementById("new-quote").value.trim();
-    const moods = document.getElementById("new-moods").value.trim().toLowerCase().split(',').map(m => m.trim());
+    const moods = document.getElementById("new-moods").value.trim().toLowerCase();
     const category = document.getElementById("new-category").value.trim() || document.getElementById("category-select").value.trim();
     const statusBox = document.getElementById("add-status");
 
-    if (!quote || moods.length === 0 || !category) {
+    if (!quote || !moods || !category) {
       statusBox.innerText = "⚠️ Please fill out all fields.";
       statusBox.style.color = "red";
       return;
     }
 
+    const formData = new FormData();
+    formData.append("quote", quote);
+    formData.append("moods", moods);
+    formData.append("category", category);
+
     fetch(GOOGLE_SHEET_URL, {
       method: "POST",
-      body: JSON.stringify({ quote, moods, category }),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      body: formData
     })
-      .then(response => response.text())
-      .then(message => {
+      .then(response => response.json())
+      .then(() => {
         statusBox.innerText = "✅ Quote saved!";
         statusBox.style.color = "green";
 
@@ -105,7 +98,6 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf
       });
   };
 
-  // ✅ Populate categories
   function populateCategoryOptions() {
     const categorySet = new Set();
 
@@ -126,7 +118,6 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyCGShUYOcgkzf
     });
   }
 
-  // ✅ Optional clearSavedQuotes
   window.clearSavedQuotes = function () {
     alert("You're using Google Sheets — nothing to clear!");
   };
