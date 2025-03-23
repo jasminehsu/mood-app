@@ -76,17 +76,36 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
       statusBox.innerText = "✅ Quote saved!";
       statusBox.style.color = "green";
       console.log("Server response:", msg);
-
+    
       // Clear form
       document.getElementById("new-quote").value = "";
       document.getElementById("new-moods").value = "";
       document.getElementById("new-category").value = "";
       document.getElementById("category-select").value = "";
-
-      // Refresh quotes
+    
+      // ✅ Now fetch updated quotes
       return fetch(GOOGLE_SHEET_URL);
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to refresh quotes.");
+      return response.json();
+    })
+    .then(data => {
+      quotes = data.map(q => ({
+        quote: q.quote,
+        moods: typeof q.moods === 'string' ? q.moods.split(',').map(m => m.trim().toLowerCase()) : [],
+        category: q.category
+      }));
+      populateCategoryOptions();
+    })
+    .catch(err => {
+      statusBox.innerText = "❌ Failed to save quote.";
+      statusBox.style.color = "red";
+      console.error(err);
+    })
+    
+
+
     .then(data => {
       quotes = data.map(q => ({
         quote: q.quote,
