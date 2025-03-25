@@ -17,7 +17,8 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
         return {
           quote: q.quote,
           moods: moodArray,
-          category: q.category
+          category: q.category,
+          image: q.image || "img/image.png"  // ✅ 預設圖片
         };
       });
       console.log("✅ Quotes loaded:", quotes);
@@ -50,9 +51,14 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
       quoteBox.innerHTML = `<p><em>No quotes for that mood yet.</em></p>`;
     } else {
       const random = filtered[Math.floor(Math.random() * filtered.length)];
+      const imageSrc = random.image || "img/image.png"; // ✅ 顯示對應圖片
+
       quoteBox.innerHTML = `
-        <p>${random.quote}</p>
-        <small><strong>Category:</strong> ${random.category || "Uncategorized"}</small>
+        <div class="quote-text">${random.quote}</div>
+        <div class="category"><strong>Category:</strong> ${random.category || "Uncategorized"}</div>
+        <div class="quote-image-wrapper">
+          <img src="${imageSrc}" alt="Quote Image" class="quote-image">
+        </div>
       `;
     }
   };
@@ -63,6 +69,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     const moods = document.getElementById("new-moods").value.trim().toLowerCase();
     const category = document.getElementById("new-category").value.trim() ||
                      document.getElementById("category-select").value.trim();
+    const image = document.getElementById("new-image").value.trim(); // ✅ 加上 image 欄位
     const statusBox = document.getElementById("add-status");
 
     if (!quote || !moods || !category) {
@@ -75,6 +82,7 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
     formData.append("quote", quote);
     formData.append("moods", moods);
     formData.append("category", category);
+    formData.append("image", image); // ✅ 加入 image 傳送欄位
 
     fetch(GOOGLE_SHEET_URL, {
       method: "POST",
@@ -91,13 +99,13 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
       document.getElementById("new-moods").value = "";
       document.getElementById("new-category").value = "";
       document.getElementById("category-select").value = "";
+      document.getElementById("new-image").value = ""; // ✅ 清除 image 欄位
 
       // Refresh quotes from Google Sheet
       return fetch(GOOGLE_SHEET_URL);
     })
     .then(response => response.json())
     .then(data => {
-      // ✅ FIXED: consistent mood parsing here too
       quotes = data.map(q => {
         const moodArray = (q.moods || "")
           .toLowerCase()
@@ -108,7 +116,8 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxjwvyQcYTM9MY
         return {
           quote: q.quote,
           moods: moodArray,
-          category: q.category
+          category: q.category,
+          image: q.image || "img/image.png" // ✅ 更新資料後也加上 image
         };
       });
 
