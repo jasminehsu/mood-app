@@ -260,7 +260,7 @@ footer {
 .quote-image-wrapper {
   position: relative;
   width: 100%;
-  max-width: 300px;
+  max-width: 500px;
   margin: 1rem auto;
   aspect-ratio: 1 / 1;
   overflow: hidden;
